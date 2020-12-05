@@ -65,7 +65,7 @@
 ##### if문
 
 ```
-if (조건식) 처리할 문장
+if (조건식) true일 경우 처리할 문장
 
 if (조건식) {
 	처리할 문장
@@ -74,7 +74,8 @@ if (조건식) {
 
 * 이런식의 구조로 되어있으며, 조건식이 참일 경우, 코드를 실행한다.
 * 조건식에는 변수, 관계연산자, 논리연산자 등이 들어간다.
-* 
+
+
 
 ```
 int a = 1;
@@ -98,11 +99,11 @@ a : 2 b : 0
 ##### if else문
 
 ```
-if (조건식) 처리할 문장
-else if(조건식) 처리할 문장
+if (조건식) 조건식이 true일 경우처리할 문장 
+else if(조건식) 위의 조건식이 false이고, 현재 조건식이 true 처리할 문장
 else if(조건식) 처리할 문장
 ...
-else 처리할 문장
+else 위의 조건식 모두 false일때 처리할 문장
 
 ```
 
@@ -146,9 +147,52 @@ a는 7
 
 ##### switch
 
+```
+switch (변수){
+	case 값:
+		실행문;
+		break;
+		
+	...
+	
+	default
+		실행문;
+		break;
+
+}
+```
+
+* 변수에는 int, short, char, byte, 또는 래퍼클래스,  String(java8때 추가), enum이 가능하다
+* case값과 일치하는 실행문을 실행
+* break가 없을 경우 case이후 break가 나올때까지의 case문을 모두 실행
 
 
 
+```
+String str = "hi";
+    switch (str){
+        case "hi":
+        case "HI":
+            System.out.println("HI");
+            break;
+        case "Hello":
+            System.out.println("Hello");
+        case "HELL":
+            System.out.println("HELL");
+            break;
+        default:
+            System.out.println("default");
+```
+
+```
+String str = switch (inputstr) {
+	case "A" -> "A";
+	case "B", "b" -> "B";
+	default -> 'default';
+}
+```
+
+* java12이후에는 지시자(->)나 복수의 case로 간략화가 가능하다.
 
 
 
