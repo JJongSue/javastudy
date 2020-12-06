@@ -197,3 +197,212 @@ String str = switch (inputstr) {
 
 
 ### 반복문
+
+* 코드를 자동으로 반복시켜주는 구문
+* for, while(do while)이 있다.
+* 무한루프가 발생할 수 있다.
+
+
+
+##### for
+
+```
+for(초기화식; 조건부; 증감부){
+	// 반복할 문장
+}
+```
+
+* 초기화식, 조건부, 증감부는 반드시 작성하지 않아도 되지만, 세미콜론(;)은 반드시 존재해야한다.
+* for문안에 for문을 여러 개 넣어 다중 for문을 활용하기도 한다.
+
+```
+for(int i=0;i<5;i++){
+    for(int j=0;j<i;j++){
+        System.out.print("*");
+    }
+    System.out.println();
+}
+```
+
+```
+
+*
+**
+***
+****
+```
+
+
+
+##### for each
+
+* jdk 5.0 부터 제공되는 기능
+* 순차적으로 변수에 객체를 대입하여 수행하는 for문
+* 인덱스를 통한 접근은 불가하므로 그 경우 for문을 사용한다.
+* 더 간결하게 컬렉션(Collection) 데이터를 사용할 수 있다.
+
+* 컬렉션 프레임워크 : 다수의 데이터를 쉽고 효과으로 처리할 수 있는 표준화된 방법을 제공하는 클래스집합, 자세한 것은 17주차 예정
+
+  
+
+```
+for(배열타입 변수명: 배열){
+	//반볼할 문장
+}
+
+for(타입 변수명 : 컬렉션){
+	//반복할문장
+}
+```
+
+```
+int arr[] = {1,2,3};
+for(int i=0;i<3;i++){
+    System.out.println(arr[i]);
+}
+
+for (int a : arr){
+    System.out.println(a);
+}
+```
+
+```
+1
+2
+3
+1
+2
+3
+```
+
+
+
+##### while
+
+```
+while(조건문) {
+	//반복할 문장
+}
+
+do{
+	//반복할 문장
+}while(조건문);
+```
+
+* 조건문이 참일 동안 반복한다.
+* 종료시점을 정해주지않으면 무한반복한다.
+
+
+
+```
+int i = 0;
+while(i < 5){
+    System.out.println(i);
+    i++; //증감이 없으면 0 , 0 0 0 0 무한루프
+}
+
+do{
+    System.out.println(i);
+    i--;
+}while(i > 0);
+```
+
+```
+1
+2
+3
+4
+5
+4
+3
+2
+1
+```
+
+
+
+##### break, continue
+
+* 반복문 사용시 종료를 원할경우 break;, 반복문 사용시 아래문장을 skip하고 싶을 경우에 continue 사용
+
+
+
+```
+while(true){
+    i++;
+    if(i == 2) continue;
+    System.out.println(i);
+    if(i == 5) break;
+}
+```
+
+```
+1
+3
+4
+5
+```
+
+
+
+## 과제 0. JUnit 5 학습하세요.
+
+
+
+## 과제 1. live-study 대시 보드를 만드는 코드를 작성하세요.
+
+
+
+## 과제 2. LinkedList를 구현하세요.
+
+
+
+## 과제 3. Stack을 구현하세요.
+
+```
+public class ArrayStack {
+    private int size = 16;
+    private int[] Stack = new int[size];
+    private int now = 0;
+
+    boolean is_full(){
+        return size == now;
+    }
+    boolean is_empty(){
+        return size == 0;
+    }
+    void sizeUP(){
+        int tmp[] = new int[size];
+        for (int i = 0; i < size; i++) {
+            tmp[i] = Stack[i];
+        }
+        Stack = new int[(size<<1)];
+        for (int i = 0; i < size; i++) {
+            Stack[i] = tmp[i];
+        }
+        size <<= 1;
+    }
+
+    void add(int input){
+        if(is_full()) sizeUP();
+        Stack[now++] = input;
+    }
+
+    int pop(){
+        if(is_empty()){
+            System.out.println("empty");
+            return -1;
+        }
+        return Stack[now--];
+    }
+}
+```
+
+
+
+## 과제 4. 앞서 만든 ListNode를 사용해서 Stack을 구현하세요.
+
+
+
+## 과제 5. Queue를 구현하세요.
+
