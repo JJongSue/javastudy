@@ -347,6 +347,250 @@ while(true){
 
 ## 과제 0. JUnit 5 학습하세요.
 
+* 단위 테스트 : 소스 코드의 특정 모듈이 의도대로 정확히 작동하는지 검증하는 일련의 절차 과정
+
+
+
+### JUnit5
+
+* 자바용 단위 테스트 작성을 위한 산업 표준 프레임워크
+* java8 이상을 필요
+* 메이븐으로 의존성을 추가해줘야한다.
+
+```
+<dependency>
+    <groupId>org.junit.jupiter</groupId>
+    <artifactId>junit-jupiter-engine</artifactId>
+    <version>5.5.2</version>
+    <scope>test</scope>
+</dependency>
+```
+
+
+
+* 만약 내가 만든 arraystack을 테스트한다고 하면
+
+```
+public static void main(String[] args) {
+    ArrayStack arraystack = new ArrayStack();
+    Stack<Integer> stack = new Stack<>();
+    arraystack.add(5);
+    stack.add(5);
+
+    arraystack.add(8);
+    stack.add(8);
+
+    arraystack.add(12);
+    stack.add(12);
+
+    while(!arraystack.is_empty()){
+        int as = arraystack.pop();
+        int s = stack.pop();
+        if ( as != s) System.out.println("실패 실제 : "+ s + " 값 : " + as);
+        else System.out.println("성공 " + as);
+    }
+}
+```
+
+* main문을 만들어 확인해야하지만 Junit을 사용하여 간단한 로직으로 작성할 수 있다.
+* intelliJ는 ctrl+shift+t나 create test code를 통해 테스트 코드가 생성된다.
+
+![image](https://user-images.githubusercontent.com/34182908/101490883-534f6a80-39a6-11eb-8ad5-74c7796c309a.png)
+
+* 생성 직후의 모습
+
+```
+package week4;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+class ArrayStackTest {
+
+
+    @Test
+    void is_full() {
+    }
+
+    @Test
+    void is_empty() {
+    }
+
+    @Test
+    void sizeUP() {
+    }
+
+    @Test
+    void add() {
+    }
+
+    @Test
+    void pop() {
+    }
+}
+```
+
+
+
+### 기본 어노테이션
+
+#### @Test
+
+* @Test는 각 각의 메소드가 단위 테스트임을 지정하는 어노테이션이다
+* 이를 실행하면 아래와 같이 표시된다.
+
+![image](https://user-images.githubusercontent.com/34182908/101491337-f7391600-39a6-11eb-9fb8-8e46fd6875ed.png)
+![image](https://user-images.githubusercontent.com/34182908/101491480-26e81e00-39a7-11eb-936d-d6ac0835626f.png)
+
+밑의 그림은 is_full()의 @Test를 지우고 실행했을 때의 모습이다.
+
+@Test를 없앨 경우 테스트를 수행하지 않는다.
+
+
+
+#### @BeforeAll / @AfterAll
+
+* 각 각 static으로 선언되어야 한다.
+* 해당 annotation이 달린 메서드가 현재 클래스의 모든 테스트보다 먼저 실행된다.
+* 각 각 이전의 @BeforeClass, @AfterClass와 동일하다
+
+```
+@BeforeAll
+static void beforeall2(){
+    System.out.println("Before All2");
+}
+
+@BeforeAll
+static void beforeal(){
+    System.out.println("Before Al");
+}
+
+@BeforeAll
+static void beforeall(){
+    System.out.println("Before All");
+}
+@BeforeAll
+static void beforeall1(){
+    System.out.println("Before All1");
+}
+@AfterAll
+static void afterall(){
+    System.out.println("After All");
+}
+
+@Test
+void is_full() {
+    System.out.println("is_full");
+}
+```
+
+```
+Before All
+Before All1
+Before All2
+Before Al
+
+is_full
+
+After All
+
+Process finished with exit code 0
+```
+
+* @BeforeAll 내부에서 실행순서가 함수명 순인것 같은데 조금 더 알아봐야한다..
+
+
+
+#### @BeforeEach / @AfterEach
+
+* 각 각의 테스트 메서드 전에 실행 / 각 각의 테스트 메서드 이후에 실행
+* 이전에는 @Before, @After이었다.
+
+```
+@BeforeAll
+static void beforeall(){
+    System.out.println("Before All");
+}
+
+@AfterAll
+static void afterall(){
+    System.out.println("After All");
+}
+
+@BeforeEach
+void beforeeach(){
+    System.out.println("BeforeEach");
+}
+@AfterEach
+void aftereach(){
+    System.out.println("AfterEach");
+}
+
+@Test
+void is_full() {
+    System.out.println("is_full");
+}
+@Test 4개
+```
+
+```
+Before All
+
+BeforeEach
+AfterEach
+
+
+BeforeEach
+AfterEach
+
+
+BeforeEach
+AfterEach
+
+
+BeforeEach
+AfterEach
+
+
+BeforeEach
+is_full
+AfterEach
+
+After All
+
+Process finished with exit code 0
+
+```
+
+
+
+#### Disabled
+
+* 테스트 클래스 또는 메소드를 비활성화
+* 이전의 @Ignore
+
+
+
+#### @DisplayNameGenration
+
+* 메소드와 클래스 레퍼런스를 사용해서 테스트 이름을 표기하는 방법 설정
+* 기본 구현체로 ReplaceUnderscores 제공
+
+#### @DisplayName
+
+* 어떤 테스트인지 테스트 이름을 보다 쉽게 표현할 수 있는 방법을 제공하는 애노테이션
+* @DisplayNameGeneration 보다 우선 순위가 높다.
+
+```
+@DisplayName("테스트is_full()")
+@Test
+void is_full() {
+    System.out.println("is_full");
+}
+```
+
+![image](https://user-images.githubusercontent.com/34182908/101494372-96134180-39aa-11eb-9fd0-5038e1f85c4b.png)
+
+
+
 
 
 ## 과제 1. live-study 대시 보드를 만드는 코드를 작성하세요.
@@ -397,6 +641,8 @@ public class ArrayStack {
     }
 }
 ```
+
+
 
 
 
