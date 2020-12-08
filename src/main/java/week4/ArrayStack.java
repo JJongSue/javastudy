@@ -9,7 +9,7 @@ public class ArrayStack {
         return size == now;
     }
     boolean is_empty(){
-        return size == 0;
+        return now == 0;
     }
     void sizeUP(){
         int tmp[] = new int[size];
@@ -33,6 +33,6 @@ public class ArrayStack {
             System.out.println("empty");
             return -1;
         }
-        return Stack[now--];
+        return Stack[--now];
     }
 }
