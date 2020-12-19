@@ -102,9 +102,27 @@ BFS : 3 5 6 1 4 7 DFS : 1 4 5 7 6 3 3시작 bfs :6 7
 
 ## DFS(깊이우선 탐색)
 
+* 해당 노드를 탐색하기 전, 자식 노드를 먼저 탐색 하는 것
+
+![image](https://user-images.githubusercontent.com/34182908/102680353-c785db80-41fa-11eb-8039-9e547116e956.png)
+
+* 요구 사항인 왼쪽 순으로 방문하라 하였으므로,
+* 루트 노드인 1번 부터 그 자식인 2로 가고 2의 자식인 4, 5를 먼저 방문하게 된다.
+* 4 -> 5 -> 2 -> 7 -> 3 -> 1 ==> 1 4 5 7 6 3이 출력되게 된다.
+* DFS의 경우 재귀나 자료구조 Stack을 통해 구현한다.
+
 
 
 ```
-
+void dfs(Node node){
+    if(node.left != null) dfs(node.left);
+    if(node.right != null) dfs(node.right);
+    System.out.print(node.value + " ");
+}
 ```
 
+
+
+
+
+## [과제](https://github.com/JJongSue/javastudy/blob/master/src/main/java/week5/BinaryTree.md)

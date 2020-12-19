@@ -2,6 +2,7 @@ package week5;
 
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Stack;
 
 public class BinaryTree {
 
@@ -21,4 +22,6 @@ public class BinaryTree {
         if(node.right != null) dfs(node.right);
         System.out.print(node.value + " ");
     }
+
+
 }
