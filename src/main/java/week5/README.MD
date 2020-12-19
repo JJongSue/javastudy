@@ -295,4 +295,6 @@ TV changeTv(){
 * 객체인 TV를 반환하는 changeTv()메소드가 있을때 이를 반환하는 메소드
 
 
-[과제](https://github.com/JJongSue/javastudy/blob/master/src/main/java/week5/BinaryTree.md)
+
+## [이진트리](https://github.com/JJongSue/javastudy/blob/master/src/main/java/week5/BinaryTree.md)
+
