@@ -12,5 +12,9 @@ public class extendsMain {
 
         Runner runner = new Runner();
         runner.run();
+
+        person.si = 10;
+        person.staticI();
+        person.printSI();
     }
 }
