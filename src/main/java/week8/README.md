@@ -189,6 +189,94 @@ class AbsCalculator implements Calculator{
 
 ## 인터페이스의 static 메소드, 자바 8
 
+```
+public interface Calculator {
+    public int plus(int a, int b);
+    default int exe(int a, int b){
+        return a+b;
+    }
+    static int exe2(int a, int b){
+        return a-b;
+    }
+}
+```
+
+```
+public class CalcMain {
+    public static void main(String[] args) {
+        AbsCalculator ac = new AbsCalculator();
+        System.out.println(ac.exe(-5, 6));
+        System.out.println(ac.exe2(-5,6));
+        System.out.println(Calculator.exe2(-5, 6));
+    }
+}
+class AbsCalculator implements Calculator{
+
+    @Override
+    public int plus(int a, int b) {
+        return Math.abs(a)+Math.abs(b);
+    }
+
+    public int exe2(int a, int b){
+        return a+b;
+    }
+}
+```
+
+* 마찬가지로 java 8부터 사용할 수 있는 기능
+* 인터페이스의 static 메소드는 상속되지 않음
+* 호출시 인터페이스에 바로 접근하여 사용
+* 
+
 
 
 ## 인터페이스의 private 메소드, 자바 9
+
+```
+public interface PCalCulator {
+	int minus(int a, int b);
+    default int dmul(int a, int b){
+        return a*b;
+    }
+    static int ssum(int a, int b){
+        return a+b;
+    }
+    private static int psminus(int a, int b){
+        return a-b;
+    }
+
+    private int a2b2(int a, int b){
+//        int m = psminus(a,b);
+        return dmul(ssum(a,b), psminus(a,b));
+    }
+    default int get_a2b2(int a, int b){
+        return a2b2(a,b);
+    }
+}
+class MyCalculator implements PCalCulator{
+	@Override
+    public int minus(int a, int b) {
+        return a-b;
+    }
+}
+```
+
+```
+MyCalculator mc = new MyCalculator();
+System.out.println(mc.get_a2b2(2,3));
+```
+
+```
+-1
+-5
+```
+
+* default, static과 마찬가지로 구현부가 존재함
+* static / non-static
+* 상속되지 않으며, 인터페이스 내부에서만 사용된다.
+* 인터페이스에서 다른 메소드를 호출 할 수 있다.
+
+| private        | private, abstarct, default, static 메소드 |
+| -------------- | ----------------------------------------- |
+| private static | static, static private                    |
+

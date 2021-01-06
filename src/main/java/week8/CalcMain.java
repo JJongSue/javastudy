@@ -6,6 +6,10 @@ public class CalcMain {
         System.out.println(ac.exe(-5, 6));
         System.out.println(ac.exe2(-5,6));
         System.out.println(Calculator.exe2(-5, 6));
+
+        MyCalculator mc = new MyCalculator();
+        System.out.println(mc.get_a2b2(2,3));
+
     }
 }
 class AbsCalculator implements Calculator{
@@ -17,5 +21,16 @@ class AbsCalculator implements Calculator{
 
     public int exe2(int a, int b){
         return a+b;
+    }
+
+
+
+}
+
+class MyCalculator implements PCalCulator{
+
+    @Override
+    public int minus(int a, int b) {
+        return a-b;
     }
 }
