@@ -7,7 +7,7 @@ public class ExceptionExample {
             ArrayException ae = new ArrayException();
             System.out.println(ae.array[0]);
 
-        }catch (NullPointerException | InterruptedException){
+        }catch (NullPointerException e){
             System.out.println("|");
 
         }catch (ArrayIndexOutOfBoundsException e){
