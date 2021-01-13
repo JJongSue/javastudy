@@ -2,10 +2,14 @@ package week9;
 
 public class ExceptionExample {
     public static void main(String[] args) {
-        
+
         try{
             ArrayException ae = new ArrayException();
-            System.out.println(ae.array[0]);
+            ae.makeException();
+//            System.out.println(ae.array[0]);
+
+            throw new ArrayIndexOutOfBoundsException("Array");
+//            throw new Exception("exception");
 
         }catch (NullPointerException e){
             System.out.println("|");
@@ -25,6 +29,11 @@ class ArrayException{
 
     public ArrayException() {
         array = new int[3];
-        array[4] = 0;
+//        array[4] = 0;
+    }
+
+    void makeException() throws Exception {
+        throw new Exception("make Exeption");
     }
 }
+

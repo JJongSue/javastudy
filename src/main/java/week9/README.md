@@ -142,21 +142,115 @@ catch (NullPointerException | InterruptedException){
 
 
 
-throw, thorws 예외발생
+```
+try{
+    throw new ArrayIndexOutOfBoundsException("Array");
+}catch (NullPointerException e){
+    System.out.println("|");
+}catch (ArrayIndexOutOfBoundsException e){
+    System.out.println("ArrayIndexOutOfBoundsException");
+} catch (Exception e) {
+    System.out.println("error 발생");
+} finally {
+    System.out.println("finally");
+}
+```
+
+```
+ArrayIndexOutOfBoundsException
+finally
+```
+
+* throw Exception객체 를 이용하면 예외를 발생시킬 수 있다.
+* throw Exception를 checked Exception의 경우 try-catch로 묶지않으면 컴파일 에러 발생
+
+
+
+```
+void makeException() throws Exception {
+    throw new Exception("make Exeption");
+}
+```
+
+* throw를 try-catch로 묶지않고 컴파일 에러를 발생시키지 않는 방법이 있는데, thorws를 이용한다.
+* 이 경우 thorws한 메서드를 사용할 경우, 그 메서드를 사용하는 곳에서 try-catch를 통해 예외를 처리하거나 마찬가지로 thorws를 통해 예외를 처리하면 된다.
+* Exception을 이용할 경우 모든 에러가 발생할 수 있다를 내포하고, 특정 예외를 지정하거나 여러 개의 예외를 지정할 수 있다.
 
 
 
 ## 자바가 제공하는 예외 계층 구조
 
+```
+Object
+├── Throwable
+│	├── Error
+│   │     
+│   │     
+│	├── Exeption
+│   │     ├──────── Checked Exception(RuntimeException이 아닌 나머지 클래스)
+│   │     │   
+│   │     ├──────── RuntimeException(Uncheck Exception)
+    	
+```
+
+
+
 
 
 ## Exception과 Error의 차이는?
+
+* Throwable을 상속받는 클래스
+* Error는 컴파일 시 문법적인 오류, 런타임 시 Null값 참조 등으로 프로세스에 심각한 문제를 일으켜 프로세스를 종료시킬 수 있다(메모리 부족 등)
+* Exception은 동작 도중 예기치 못한 상태 이상이 발생하여 수행 중인 프로그램이 영향을 받는 것, 오버플로우로 양의값이 음의 값이 되는 문제 등
 
 
 
 ## RuntimeException과 RE가 아닌 것의 차이는?
 
+* RuntimeException : RE와 RE의 자손 클래스, 실행 단계에서 확인, 예외 발생 시 트랙잭션을 roll back
+  * NullPointerException, IndexOutOfBoundException, SystemException 등
+* RE가 아닌 것 : Exception 클래스의 자손중, RE을 제외한 모든 클래스, 반드시 예외처리 하여야한다, 컴파일 단계에서 확인, 예외 발생시 트랜잭션 처리 roll back하지 않음
+  * IOException, SqlException 등
+
+
+
 
 
 ## 커스텀한 예외 만드는 방법
+
+```
+public class CustomExceptionMain {
+    public static <ce> void main(String[] args) {
+
+
+        try{
+            System.out.println("Try");
+            CustomExceptionMain cem = new CustomExceptionMain();
+            cem.throwCustomException();
+        }catch (CustomException ce){
+            System.out.println("CustomException Catch");
+        }
+    }
+    public void throwCustomException() throws CustomException{
+        System.out.println("throwCustomException()!");
+        throw new CustomException();
+    }
+}
+
+class CustomException extends Exception{
+    public CustomException() {
+//        //super();
+    }
+//
+    public CustomException(String message) {
+//        //super(message);
+    }
+}
+```
+
+```
+Try
+throwCustomException()!
+CustomException Catch
+```
 
