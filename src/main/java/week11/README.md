@@ -17,7 +17,23 @@
 
 
 
+## Enum
+
+* JDK 1.5부터 지원
+* 열거 타입을 선언하기 위한 키워드(상수의 집합, Enumeration)
+
+
+
 ## enum 정의하는 방법
+
+```
+public enum PhoneCompany {
+    SAMSUNG, APPLE, LG, GOOGLE
+}
+```
+
+* 클래스와 마찬가지로 자바 파일, 클래스 내부, 클래스 밖에 선언 가능
+* 
 
 
 
