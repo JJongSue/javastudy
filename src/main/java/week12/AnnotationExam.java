@@ -25,3 +25,5 @@ class Child extends Parent{
         System.out.println("c print");
     }
 }
+
+
