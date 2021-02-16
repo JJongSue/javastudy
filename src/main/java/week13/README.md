@@ -11,3 +11,25 @@
 - Byte와 Character 스트림
 - 표준 스트림 (System.in, System.out, System.err)
 - 파일 읽고 쓰기
+
+
+
+## 스트림 (Stream) / 버퍼 (Buffer) / 채널 (Channel) 기반의 I/O
+
+### 스트림(Stream)
+
+* 자바에서는 데이터는 스트림(Stream)을 통해 입출력된다
+* 최상위 클래스 InputStream / OutputStream를 가지며 
+* 
+
+
+
+- InputStream과 OutputStream
+- Byte와 Character 스트림
+- 표준 스트림 (System.in, System.out, System.err)
+- 파일 읽고 쓰기
+
+
+
+
+
