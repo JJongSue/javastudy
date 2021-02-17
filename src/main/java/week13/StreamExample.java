@@ -1,18 +1,24 @@
 package week13;
 
-import java.io.BufferedInputStream;
-import java.io.Console;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 
 public class StreamExample {
     public static void main(String[] args) throws IOException {
-        InputStream is = new BufferedInputStream(System.in);
+        InputStream is = System.in;
         int a = is.read();
-        while(a != -1){
-            System.out.println(a);
-            a = is.read();
-        }
+        is.close();
+
+        OutputStream os = System.out;
+        os.write(a);
+        os.flush();
+        os.close();
+
+//        StringBuilder sb = new StringBuilder();
+//        for (int i = 0; i < ; i++) {
+//
+//        }
+
+        //System.out.println((char)a);
 
 
     }
