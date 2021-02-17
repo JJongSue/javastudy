@@ -21,9 +21,61 @@
 * JAVA IO의 핵심 개념
 
 * 자바에서는 데이터는 스트림(Stream, 데이터의 흐름)을 통해 입출력된다
+
+
+
+### 버퍼(Buffer)
+
+* 입출력장치가 CPU보다 느리기 때문에 발생하는 비효율성을 방지하기 위해 나온 개념
+* 메모리에 버퍼라는 공간을 두고 이를 쌓아놨다가 데이터가 버퍼크기보다 크면 flush()를 통해 출력
+
+```
+public class BufferedWriter extends Writer {
+
+    private Writer out;
+
+    private char cb[];
+    private int nChars, nextChar;
+
+    private static int defaultCharBufferSize = 8192;
+    
+    ...
+    
+    public void write(int c) throws IOException {
+            synchronized (lock) {
+                ensureOpen();
+                if (nextChar >= nChars)
+                    flushBuffer();
+                cb[nextChar++] = (char) c;
+            }
+        }     
+        
+     ...
+     
+     void flushBuffer() throws IOException {
+        synchronized (lock) {
+            ensureOpen();
+            if (nextChar == 0)
+                return;
+            out.write(cb, 0, nextChar);
+            nextChar = 0;
+        }
+    }
+    ...
+```
+
+* BufferedReader의 구조
+
+
+
+* 많은 프로그램들이 유니코드(UTF-8 등)을 통해 문자를 표현하는 데, 위와 같이 stream은 byte를 처리하기 때문에 한글의 경우 깨지게 된다.
+* 이를 해결하기 위해 Re
+
+
+
+## InputStream과 OutputStream
+
 * 바이트 기반의 추상클래스인 최상위 클래스 InputStream / OutputStream를 가지며  각 각 Closeable과 Closeable, Flushable를 상속받고 있다.
-
-
 
 ```
 InputStream is = System.in;
@@ -51,11 +103,6 @@ a
 
 
 
-### 버퍼(Buffer)
-
-
-
-- InputStream과 OutputStream
 - Byte와 Character 스트림
 - 표준 스트림 (System.in, System.out, System.err)
 - 파일 읽고 쓰기
