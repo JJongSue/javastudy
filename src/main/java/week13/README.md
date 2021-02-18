@@ -78,6 +78,17 @@ public class BufferedWriter extends Writer {
 
 
 
+## java.io / java.nio
+
+| java.io                               | java.nio    |
+| ------------------------------------- | ----------- |
+| Stream                                | Channel     |
+| 단방향                                | 양방향      |
+| InputStreamReader, OutputStreamReader | Reader      |
+| Blocking                              | NonBlocking |
+
+
+
 * 많은 프로그램들이 유니코드(UTF-8 등)을 통해 문자를 표현하는 데, 위와 같이 stream은 byte를 처리하기 때문에 한글의 경우 깨지게 된다.
 * 이를 해결하기 위해 Re
 
