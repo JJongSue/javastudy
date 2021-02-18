@@ -21,6 +21,8 @@
 * JAVA IO의 핵심 개념
 
 * 자바에서는 데이터는 스트림(Stream, 데이터의 흐름)을 통해 입출력된다
+* 단방향
+* 바이트 기반의 추상클래스인 최상위 클래스 InputStream / OutputStream와 그것을 상속받는 FileInputStream, PrintStream 등등이 존재
 
 
 
@@ -64,7 +66,15 @@ public class BufferedWriter extends Writer {
     ...
 ```
 
-* BufferedReader의 구조
+* BufferedWriter의 구조 cb[] 버퍼, write에서 일정크기의 버퍼가 차면, 그것을 flushBuffer()
+
+
+
+## Channel
+
+* Stream과는 다르게  입출력이 양방향으로 가능한 통로 제공
+* java.nio(new io) 클래스들은 channel기반의 IO 제공
+* 기본적으로 입출력시 Buffer 사용
 
 
 
