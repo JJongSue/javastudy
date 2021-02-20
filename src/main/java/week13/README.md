@@ -122,11 +122,149 @@ a
 * InputStream에서는 read()를 통해 데이터를 읽고, OutputStream에선 write를 통해  쓰고, flush()를 통해 출력 스트림 내부의 작은 버퍼에 남아있는 데이터를 모두 출력후 비운다.
 * 사용후 둘 다 close를 호출하여 시스템 자원을 풀어줘야한다.
 
+```
+public abstract class InputStream implements Closeable {
+
+    // MAX_SKIP_BUFFER_SIZE is used to determine the maximum buffer size to
+    // use when skipping.
+    private static final int MAX_SKIP_BUFFER_SIZE = 2048;
+
+    private static final int DEFAULT_BUFFER_SIZE = 8192;
+    
+    ...
+    
+        public int read(byte b[], int off, int len) throws IOException {
+        Objects.checkFromIndexSize(off, len, b.length);
+        if (len == 0) {
+            return 0;
+        }
+
+        int c = read();
+        if (c == -1) {
+            return -1;
+        }
+        b[off] = (byte)c;
+
+        int i = 1;
+        try {
+            for (; i < len ; i++) {
+                c = read();
+                if (c == -1) {
+                    break;
+                }
+                b[off + i] = (byte)c;
+            }
+        } catch (IOException ee) {
+        }
+        return i;
+    }
+    
+    ..
+```
+
+* 내부적으로 byte로 읽어오고, Buffer를 사용하지 않아, 데이터의 양이 많을 경우 성능이 느리다.
 
 
-- Byte와 Character 스트림
-- 표준 스트림 (System.in, System.out, System.err)
-- 파일 읽고 쓰기
+
+
+
+## Byte와 Character 스트림
+
+* Byte 스트림 
+  * 1바이트 기반의 데이터 입출력
+  * FileInputStream, FileOutputstream, FilterInputStream, PrintStream 등
+* Character 스트림
+  * 2바이트 단위의 데이터 입출력(유니코드 기반)
+  * Raeader, Writer가 들어가며 BufferedReader, BufferedWriter, FileReader 등
+
+```
+InputStream is = System.in;
+int a = is.read();
+is.close();
+OutputStream os = System.out;
+os.write(a);
+os.flush();
+os.close();
+```
+
+```
+가
+�
+```
+
+
+
+```
+try(BufferedReader br = new BufferedReader(new InputStreamReader(System.in))){
+    int b = br.read();
+    System.out.println((char)b);
+}catch (IOException e){
+    System.out.println("IOException!");
+}
+```
+
+```
+가
+가
+```
+
+
+
+## 표준 스트림 (System.in, System.out, System.err)
+
+* 자바에서 미리 정의해둔 표준 입출력 스트림
+* 콘솔 화면에 입출력된다고 해서 콘솔 입출력이라고도 함
+
+* System.in.read(), System.out.write()로 기본적인 입출력
+
+```
+public final class System {
+	public static final InputStream in = null;
+    public static final PrintStream out = null;
+    public static final PrintStream err = null;
+	
+    public void println(char x) {
+        synchronized (this) {
+            print(x);
+            newLine();
+        }
+    }
+    
+    public void print(char c) {
+        write(String.valueOf(c));
+    }
+```
+
+```
+public class SystemExample {
+    public static void main(String[] args) {
+        System.out.println("System out println");
+        System.err.println("System err println");
+        System.out.print("System out print");
+        System.err.print("System err print");
+    }
+}
+
+```
+
+```
+D:\>java SystemExample > system.txt
+System err println
+System err print
+
+```
+
+```system.txt
+System out println
+System out print
+```
+
+* System.out.print는 표준출력을 하지만 System.err.print의 경우 표준에러 출력으로 에러메시즈를 화면으로만 출력
+* 다른 파일등으로 결과가 redirection 되지 않음
+
+
+
+## 파일 읽고 쓰기
 
 
 
