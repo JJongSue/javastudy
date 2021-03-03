@@ -171,15 +171,28 @@ class NameThread extends Thread{
 ## 쓰레드의 우선순위
 
 * 대기하고 있는 상황에서 더 먼저 수행할 수 있는 순위
-* 기본값 5
-* getPriority(), setPriority(int newPriority)
+* 기본값 5 / 범위 1~10 높을수록 우선순위가 높아진다.
+* getPriority(), setPriority(int newPriority)로 반환/변경 가능
 
 
 
+## Main 쓰레드
+
+* Java 실행시 실행하는 main() 메소드가 Main 쓰레드
+* 따로 쓰레드를 실행하지 않고 main 메소드만 실행하면 싱슬 쓰레드 어플리케이션이라 한다.
+* Daemon Thread
+  * 메인쓰레드의 작업을 돕는 보조적인 역할을 하는 쓰레드
+  * 메인 종료시 강제적으로 자동종료
+  * 쓰레드에 setDaemon(true) 호출시 데몬 쓰레드가 됨
 
 
-Main 쓰레드
 
-동기화
+## 동기화
+
+* 멀티 쓰레드에서 한 개의 리소스를 사용할때, 다른 쓰레드의 접근을 막는것 -> Thread-Safe
+* Synchronized
+  * 
+* Atomic 클래스
+* Volatile
 
 데드락
