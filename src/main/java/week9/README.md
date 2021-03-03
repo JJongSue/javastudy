@@ -218,18 +218,15 @@ Object
 
 ## 커스텀한 예외 만드는 방법
 
+* Exception을 상속받은 후 생성자를 통해 메세지를 출력할 수 있다.
+
 ```
 public class CustomExceptionMain {
-    public static <ce> void main(String[] args) {
+    public static <ce> void main(String[] args) throws CustomException {
 
+        CustomExceptionMain cem = new CustomExceptionMain();
+        cem.throwCustomException();
 
-        try{
-            System.out.println("Try");
-            CustomExceptionMain cem = new CustomExceptionMain();
-            cem.throwCustomException();
-        }catch (CustomException ce){
-            System.out.println("CustomException Catch");
-        }
     }
     public void throwCustomException() throws CustomException{
         System.out.println("throwCustomException()!");
@@ -239,18 +236,32 @@ public class CustomExceptionMain {
 
 class CustomException extends Exception{
     public CustomException() {
-//        //super();
+        super();
     }
 //
     public CustomException(String message) {
-//        //super(message);
+        super(message);
     }
 }
 ```
 
 ```
-Try
 throwCustomException()!
-CustomException Catch
+Exception in thread "main" week9.CustomException
+	at week9.CustomExceptionMain.throwCustomException(CustomExceptionMain.java:12)
+	at week9.CustomExceptionMain.main(CustomExceptionMain.java:7)
+
 ```
 
+* 기본 생성자로 예외처리
+
+
+
+```
+throwCustomException()!
+Exception in thread "main" week9.CustomException: CustomExecption!
+	at week9.CustomExceptionMain.throwCustomException(CustomExceptionMain.java:12)
+	at week9.CustomExceptionMain.main(CustomExceptionMain.java:7)
+```
+
+* message로 예외처리
