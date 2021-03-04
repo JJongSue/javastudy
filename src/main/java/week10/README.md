@@ -190,9 +190,132 @@ class NameThread extends Thread{
 ## 동기화
 
 * 멀티 쓰레드에서 한 개의 리소스를 사용할때, 다른 쓰레드의 접근을 막는것 -> Thread-Safe
-* Synchronized
-  * 
-* Atomic 클래스
-* Volatile
 
-데드락
+  
+
+#### Synchronized
+
+```java
+public class SynchronizeMain {
+    public static void main(String[] args) {
+        Account account = new Account();
+        BankThread bt1 = new BankThread(account);
+        BankThread bt2 = new BankThread(account);
+        bt1.start();
+        bt2.start();
+        try {
+            bt1.join();
+            bt2.join();
+            System.out.println(account.getBalance());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+class Account {
+    private int balance = 1000;
+    public int getBalance(){
+        return balance;
+    }
+
+    public void withdraw(int money){
+        if( balance >= money){
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            balance -= money;
+        }
+    }
+}
+
+class BankThread extends Thread{
+    Account account;
+
+    public BankThread(Account account) {
+        this.account = account;
+    }
+
+    @Override
+    public void run(){
+        while(account.getBalance() > 0) {
+            int money = (int)(Math.random() * 5 + 1) * 100;
+
+            account.withdraw(money);
+            System.out.println(account.getBalance() + " " + money);
+
+        }
+    }
+}
+```
+
+```
+500 200
+500 300
+-200 400
+-200 300
+-200
+```
+
+* 동기화 하지 않아 동시에 접근해 음수가 발생
+
+```java
+public synchronized void withdraw(int money){
+	...
+}
+```
+
+```java
+public void withdraw(int money){
+    synchronized (this){
+            ...
+    }
+}
+```
+
+* syschronized를 이용해 자원의 접근 막는다.
+
+
+
+
+
+
+
+## 데드락
+
+* DeadLock 교착상태라고 부른다.
+* 멀티 프로세스에서 다른 프로세스의 작업이 끝날때 까지 기다리며, 더 이상 진행되지 못하는 상태
+
+#### 원인
+
+* 상호 배제(mutax)
+  * 하나의 자원당 하나의 프로세스만 사용 가능
+* 비선점
+  * 리소스를 반환하지 않으면, 다른 리소스를 가져올 수 없음
+* 점유와 대기
+  * 하나의 리소스를 가진 상태로 다른 리소스 대기
+* 원형대기
+  * 서로 반환 될때 까지 기다리는 경우
+
+#### 해결방안
+
+* 예방
+  * 교착 상태 발생 조건 중, 하나를 제거함으로써 해결하는 방법
+  * 자원의 낭비가 심하다.
+* 회피
+  * 은행원 알고리즘
+  * 프로세스가 자원을 요구할 때 시스템은 자원을 할당한 후에도 안정 상태로 남아있게 되는지를 사전에 검사하여 교착 상태를 회피하는 방법
+  * 안정 상태에 있으면 자원을 할당, 그렇지 않으면 다른 프로세스들이 자원을 해지할 때까지 대기한다.
+* 탐지
+  * 자원 할당 그래프를 통해 교착 상태 탐지
+  * 자원을 요청할 때마다 탐지 알고리즘을 실행하면 오버헤드가 발생한다.
+* 회복
+  * 교착 상태를 일으킨 프로세스를 종료하거나, 할당된 자원을 해제함으로써 회복한다
+  * 프로세스 종료 방법
+    1. 교착 상태의 프로세스를 모두 중지
+    2. 교착 상태가 제거될 때까지 한 프로세스씩 중지
+  * 자원을 선점하는 방법
+    1. 교착 상태의 프로세스가 점유하고 있는 자원을 선점하여 다른 프로세스에게 할당하며, 해당 프로세스를 일시 정지 시키는 방법
+    2. 우선 순위가 낮는 프로세스, 수행된 횟수가 적은 프로세스 등을 위주로 프로세스의 자원을 선점한다.
